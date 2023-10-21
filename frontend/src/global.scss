@@ -24,3 +24,29 @@
 @import "@ionic/angular/css/text-alignment.css";
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
+
+.hold-transition {
+    background: transparent;
+}
+
+.modal-wrapper.ion-overlay-wrapper.sc-ion-modal-md {
+    background: transparent;
+    box-shadow: none;
+}
+
+ion-modal {
+    --background: transparent;
+    background: rgb(71 153 255 / 16%);
+    --box-shadow: 0;
+}
+
+ion-content {
+    --background: transparent;
+    --box-shadow: 0;
+}
+
+.buttons {
+    display: flex;
+    justify-content: end;
+    margin: 18px 0px 0px 0px;
+}

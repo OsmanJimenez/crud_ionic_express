@@ -3,11 +3,13 @@ import { ApiService } from '@services/api/api.service';
 import { EndpointsService } from '@services/api/endpoints.service';
 import { first, pipe } from 'rxjs';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
-import { Observable } from 'rxjs';
 import { AlertController, ModalController } from '@ionic/angular';
 import { UpdatePage } from '@modals/update/update.page';
 import { AlertService } from '@services/utils/alerts/alert.service';
 import { CreatePage } from '@modals/create/create.page';
+import { Router } from '@angular/router';
+import { environment } from 'src/environments/environment';
+import { Storage } from '@ionic/storage-angular';
 
 @Component({
   selector: 'app-home',
@@ -16,6 +18,7 @@ import { CreatePage } from '@modals/create/create.page';
 })
 export class HomePage implements OnInit {
   url = this.endpointsService.url
+  _storage = this.storage
 
   public configuration: Config;
   public columns: Columns[];
@@ -25,8 +28,9 @@ export class HomePage implements OnInit {
     private endpointsService: EndpointsService,
     public modalController: ModalController,
     private alertService: AlertService,
-    private alertController: AlertController
-
+    private alertController: AlertController,
+    private router: Router,
+    private storage: Storage
   ) { }
 
   ngOnInit() {
@@ -125,6 +129,12 @@ export class HomePage implements OnInit {
   success() {
     this.alertService.statusSuccessDelete('el usuario')
     this.loadData()
+  }
+
+  closeSession() {
+    this._storage.set(environment.localStorage, null); // Limpia el almacenamiento local
+
+    this.router.navigate(['login'])
   }
 
 }
