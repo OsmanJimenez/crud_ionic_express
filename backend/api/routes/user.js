@@ -45,6 +45,20 @@ router.post('/', verifyToken, (req, res) => {
   });
 });
 
+router.put('/:id', (req, res) => {
+  const userId = req.params.id;
+  const { email, password, role } = req.body;
+  const query = 'UPDATE users SET email = ?, password = ?, role = ? WHERE id = ?';
+  mysqlConnection.query(query, [email, password, role, userId], (err, result) => {
+    if (!err) {
+      res.json({ message: 'Usuario actualizado correctamente' });
+    } else {
+      console.log(err);
+      res.status(500).json({ error: 'Error al actualizar el usuario' });
+    }
+  });
+});
+
 
 function verifyToken(req,res, next){
   if(!req.headers.authorization) return res.status(401).json('No autorizado');
