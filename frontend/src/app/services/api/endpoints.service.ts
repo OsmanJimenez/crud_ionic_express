@@ -5,6 +5,7 @@ import { Injectable } from '@angular/core'
 })
 export class EndpointsService {
   url = {
+    users: ['/user'],
     login: ['/user/login']
   }
 }
