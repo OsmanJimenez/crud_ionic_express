@@ -1,4 +1,0 @@
-{
-  "include": ["../ionic_admin_central/**/*.ts", "./libs/**/*.ts"],
-  "exclude": ["**/*.spec.ts"]
-}

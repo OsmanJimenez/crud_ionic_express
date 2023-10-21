@@ -8,6 +8,10 @@ const routes: Routes = [
     loadChildren: () => import('./pages/login/login.module').then(m => m.LoginPageModule)
   },
   {
+    path: '**',
+    redirectTo: 'login'
+  },
+  {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
@@ -19,11 +23,11 @@ const routes: Routes = [
   },
   {
     path: 'update',
-    loadChildren: () => import('./modals/update/update.module').then( m => m.UpdatePageModule)
+    loadChildren: () => import('./modals/update/update.module').then(m => m.UpdatePageModule)
   },
   {
     path: 'create',
-    loadChildren: () => import('./modals/create/create.module').then( m => m.CreatePageModule)
+    loadChildren: () => import('./modals/create/create.module').then(m => m.CreatePageModule)
   }
 ];
 
