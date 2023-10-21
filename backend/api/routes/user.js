@@ -59,6 +59,18 @@ router.put('/:id', (req, res) => {
   });
 });
 
+router.delete('/:id', (req, res) => {
+  const userId = req.params.id;
+  const query = 'DELETE FROM users WHERE id = ?';
+  mysqlConnection.query(query, [userId], (err, result) => {
+    if (!err) {
+      res.json({ message: 'Usuario eliminado correctamente' });
+    } else {
+      console.log(err);
+      res.status(500).json({ error: 'Error al eliminar el usuario' });
+    }
+  });
+});
 
 function verifyToken(req,res, next){
   if(!req.headers.authorization) return res.status(401).json('No autorizado');
