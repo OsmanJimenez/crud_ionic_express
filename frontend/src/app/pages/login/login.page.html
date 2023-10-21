@@ -10,10 +10,14 @@
           <ion-input label="Correo Electronico" labelPlacement="floating" placeholder="Ingresa un correo electronico"
             formControlName="email"></ion-input>
         </ion-item>
+        <app-error-messages option="email" [form]="loginForm"></app-error-messages>
+
         <ion-item>
           <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa una contraseña"
             formControlName="password"></ion-input>
         </ion-item>
+        <app-error-messages option="password" [form]="loginForm"></app-error-messages>
+
 
         <ion-button expand="block" id="btn-login" (click)="logIn()" aria-label="Iniciar Sesión"
           [disabled]="loginForm.invalid">Iniciar Sesión</ion-button>
