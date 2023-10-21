@@ -32,7 +32,7 @@ router.post('/login', (req, res) => {
         });
         res.json({ token });
       } else {
-        res.status(400).send('Usuario o clave inválida.');
+        res.status(400).send('Usuario o clave inválida');
       }
     }
   );
@@ -52,11 +52,10 @@ router.post('/', verifyToken, (req, res) => {
 });
 
 // Actualizar un usuario existente
-router.put('/:id', (req, res) => {
-  const userId = req.params.id;
-  const { email, password, role } = req.body;
+router.put('/', (req, res) => {
+  const { id, email, password, role } = req.body; // Tomar id del cuerpo de la solicitud
   const query = 'UPDATE users SET email = ?, password = ?, role = ? WHERE id = ?';
-  mysqlConnection.query(query, [email, password, role, userId], (err) => {
+  mysqlConnection.query(query, [email, password, role, id], (err) => {
     if (err) {
       console.log(err);
       return res.status(500).json({ error: 'Error al actualizar el usuario' });
@@ -64,6 +63,7 @@ router.put('/:id', (req, res) => {
     res.json({ message: 'Usuario actualizado correctamente' });
   });
 });
+
 
 // Eliminar un usuario
 router.delete('/:id', (req, res) => {

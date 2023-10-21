@@ -4,6 +4,8 @@ import { EndpointsService } from '@services/api/endpoints.service';
 import { first } from 'rxjs';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
+import { ModalController } from '@ionic/angular';
+import { UpdatePage } from '@modals/update/update.page';
 
 @Component({
   selector: 'app-home',
@@ -19,6 +21,7 @@ export class HomePage implements OnInit {
 
   constructor(private apiService: ApiService,
     private endpointsService: EndpointsService,
+    public modalController: ModalController,
 
   ) { }
 
@@ -54,5 +57,21 @@ export class HomePage implements OnInit {
   showModal() {
 
   }
+
+  async editUser(data) {
+    const modal = await this.modalController.create({
+      component: UpdatePage,
+      cssClass: 'select-program',
+      componentProps: {
+        data: data
+      },
+      backdropDismiss: false
+    })
+
+    modal.onDidDismiss().then(() => { })
+    return await modal.present()
+  }
+
+  
 
 }
