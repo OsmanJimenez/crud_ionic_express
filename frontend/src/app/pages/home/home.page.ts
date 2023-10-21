@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from '@services/api/api.service';
 import { EndpointsService } from '@services/api/endpoints.service';
-import { first } from 'rxjs';
+import { first, pipe } from 'rxjs';
 import { Columns, Config, DefaultConfig } from 'ngx-easy-table';
 import { Observable } from 'rxjs';
-import { ModalController } from '@ionic/angular';
+import { AlertController, ModalController } from '@ionic/angular';
 import { UpdatePage } from '@modals/update/update.page';
+import { AlertService } from '@services/utils/alerts/alert.service';
 
 @Component({
   selector: 'app-home',
@@ -22,6 +23,8 @@ export class HomePage implements OnInit {
   constructor(private apiService: ApiService,
     private endpointsService: EndpointsService,
     public modalController: ModalController,
+    private alertService: AlertService,
+    private alertController: AlertController
 
   ) { }
 
@@ -54,8 +57,46 @@ export class HomePage implements OnInit {
       )
   }
 
-  showModal() {
+  async alertDelete(id) {
+    const alert = await this.alertController.create({
+      header: '',
+      subHeader: 'Alerta!',
+      message: '¿Deseas eliminar el usuario?',
+      backdropDismiss: false,
+      buttons: [
+        {
+          text: 'Cancelar',
+          role: 'cancel' // Este botón cerrará la alerta
+        },
+        {
+          text: 'Eliminar',
+          handler: () => {
+            this.delete(id)
+          }
+        }
+      ]
+    })
 
+    await alert.present()
+  }
+
+  async delete(id) {
+    await this.apiService
+      .delete(this.url.users, id)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.success()
+        },
+        (err) => {
+          this.alertService.statusErrorUpdate(err)
+        }
+      )
+  }
+
+  success() {
+    this.alertService.statusSuccessDelete('el usuario')
+    this.loadData()
   }
 
   async editUser(data) {
@@ -68,10 +109,12 @@ export class HomePage implements OnInit {
       backdropDismiss: false
     })
 
-    modal.onDidDismiss().then(() => { })
+    modal.onDidDismiss().then(() => {
+      this.loadData()
+    })
     return await modal.present()
   }
 
-  
+
 
 }

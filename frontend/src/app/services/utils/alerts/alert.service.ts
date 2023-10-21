@@ -65,8 +65,23 @@ export class AlertService {
     } else {
       const alert = await this.alertController.create({
         header: '',
-        subHeader: 'Registro con éxito!',
+        subHeader: 'Actualización con éxito!',
         message: 'Se ha actualizado ' + option + ' con éxito.',
+        buttons: ['Aceptar']
+      })
+
+      await alert.present()
+    }
+  }
+
+  async statusSuccessDelete(option: string) {
+    if (typeof option === 'object') {
+      this.statusErrorServer()
+    } else {
+      const alert = await this.alertController.create({
+        header: '',
+        subHeader: 'Eliminación con éxito!',
+        message: 'Se ha eliminado ' + option + ' con éxito.',
         buttons: ['Aceptar']
       })
 

@@ -97,6 +97,28 @@ export class ApiService {
     )
   }
 
+  delete(url, value: number) {
+    this.presentLoading();
+
+    const request = this.http.delete<any>(`${environment.apiUrl}${url}/${value}`);
+
+    return request.pipe(
+      catchError((res: HttpErrorResponse) => {
+        this.handleErrors(res);
+        this.dismiss();
+        return this.getCatchError(res); // Emitir un valor nulo para que no se propague el error.
+      }),
+      map((response: any) => {
+        return this.handleResponse(response);
+      }),
+      tap(() => {
+        // Aquí puedes ejecutar tu función adicional después de map y catchError.
+        this.dismiss();
+      })
+    );
+  }
+
+
 
 
   logout() {
