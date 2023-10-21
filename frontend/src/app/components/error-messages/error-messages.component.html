@@ -1,0 +1,7 @@
+<div class="message-errors" *ngIf="errorControl.touched || errorControl.dirty">
+  <ng-container *ngIf="show">
+    <ion-text color="primary" class="error">
+      {{ getError() }}
+    </ion-text>
+  </ng-container>
+</div>
