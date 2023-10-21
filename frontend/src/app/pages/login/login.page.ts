@@ -70,23 +70,25 @@ export class LoginPage implements OnInit {
   }
 
   async logIn() {
-    this.submitted = true
-    this._storage.set(environment.localStorage, null)
+    this.submitted = true;
+    this._storage.set(environment.localStorage, null); // Limpia el almacenamiento local
 
-    console.log(this.url.login)
-    this.apiService
-      .post(this.url.login, this.getData())
-      .pipe(first())
-      .subscribe(
-        (res) => {
-          this._storage?.set(environment.localStorage, res)
-          this.router.navigate(['home']);
-        },
-        (err) => {
-          this.alertService.statusErrorLogin(err)
-        }
-      )
+    console.log(this.url.login);
+
+    try {
+      const res = await this.apiService.post(this.url.login, this.getData()).pipe(first()).toPromise();
+
+      if (res.token) {
+        await this._storage.set(environment.localStorage, res);
+        this.router.navigate(['home']);
+      } else {
+        this.alertService.statusErrorLogin('Token no encontrado');
+      }
+    } catch (err) {
+      this.alertService.statusErrorLogin(err);
+    }
   }
+
 
   getData() {
     let data = this.loginForm.controls
