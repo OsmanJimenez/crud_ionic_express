@@ -8,14 +8,14 @@ import { ValidationService } from '@services/utils/validations/validation.servic
 import { first } from 'rxjs';
 
 @Component({
-  selector: 'app-update',
-  templateUrl: './update.page.html',
-  styleUrls: ['./update.page.scss'],
+  selector: 'app-create',
+  templateUrl: './create.page.html',
+  styleUrls: ['./create.page.scss'],
 })
-export class UpdatePage implements OnInit {
+export class CreatePage implements OnInit {
   @Input() data: any
 
-  updateForm: FormGroup
+  createForm: FormGroup
   form: any
   errorsMessages: string[] = []
   rolModules = []
@@ -30,10 +30,9 @@ export class UpdatePage implements OnInit {
   }
 
   getData() {
-    let data = this.updateForm.controls
+    let data = this.createForm.controls
 
     this.form = {
-      id: data.id.value,
       email: data.email.value,
       password: data.password.value,
       role: data.role.value
@@ -42,34 +41,33 @@ export class UpdatePage implements OnInit {
     return this.form
   }
   validateForm() {
-    this.updateForm = this.formBuilder.group({
-      id: [{ value: this.data.id, disabled: true }, Validators.compose([Validators.required])],
-      email: [this.data.email, [this.validationService.Validation(6, 50, 'onlyEmail')]],
-      password: [this.data.password, Validators.compose([Validators.required])],
-      role: [this.data.role, Validators.compose([Validators.required])]
+    this.createForm = this.formBuilder.group({
+      email: ['', [this.validationService.Validation(6, 50, 'onlyEmail')]],
+      password: ['', Validators.compose([Validators.required])],
+      role: ['', Validators.compose([Validators.required])]
     })
   }
 
   get errorControl() {
-    return this.updateForm.controls
+    return this.createForm.controls
   }
-  async update() {
+  async create() {
     await this.apiService
-      .put(this.url.users, this.getData())
+      .post(this.url.users, this.getData())
       .pipe(first())
       .subscribe(
         (res) => {
           this.success(res)
         },
         (err) => {
-          this.alertService.statusErrorUpdate(err)
+          this.alertService.statusSuccessRegister(err)
         }
       )
     this.closeModal()
   }
 
   success(res) {
-    this.alertService.statusSuccessUpdate('el usuario')
+    this.alertService.statusSuccessRegister('el usuario')
   }
 
   closeModal() {

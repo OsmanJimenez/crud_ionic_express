@@ -1,0 +1,30 @@
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Agregar Usuario</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="createForm">
+        <ion-item>
+          <ion-input label="Correo Electronico" labelPlacement="floating" placeholder="Ingresa un correo electronico"
+            formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa una contraseña"
+            formControlName="password"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-select label="Rol" placeholder="Rol" formControlName="role" cancelText="Cancelar" okText="Aceptar">
+            <ion-select-option value="Administrador">Administrador</ion-select-option>
+            <ion-select-option value="Usuario">Usuario</ion-select-option>
+          </ion-select>
+        </ion-item>
+
+        <ion-button color="success" [disabled]="createForm.invalid" (click)="create()">Crear</ion-button>
+        <ion-button color="danger" (click)="closeModal()">Cerrar</ion-button>
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>

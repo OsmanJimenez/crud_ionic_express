@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { AlertController, ModalController } from '@ionic/angular';
 import { UpdatePage } from '@modals/update/update.page';
 import { AlertService } from '@services/utils/alerts/alert.service';
+import { CreatePage } from '@modals/create/create.page';
 
 @Component({
   selector: 'app-home',
@@ -66,7 +67,7 @@ export class HomePage implements OnInit {
       buttons: [
         {
           text: 'Cancelar',
-          role: 'cancel' // Este botón cerrará la alerta
+          role: 'cancel'
         },
         {
           text: 'Eliminar',
@@ -94,15 +95,21 @@ export class HomePage implements OnInit {
       )
   }
 
-  success() {
-    this.alertService.statusSuccessDelete('el usuario')
-    this.loadData()
+  async createUser() {
+    const modal = await this.modalController.create({
+      component: CreatePage,
+      backdropDismiss: false
+    })
+
+    modal.onDidDismiss().then(() => {
+      this.loadData()
+    })
+    return await modal.present()
   }
 
   async editUser(data) {
     const modal = await this.modalController.create({
       component: UpdatePage,
-      cssClass: 'select-program',
       componentProps: {
         data: data
       },
@@ -115,6 +122,9 @@ export class HomePage implements OnInit {
     return await modal.present()
   }
 
-
+  success() {
+    this.alertService.statusSuccessDelete('el usuario')
+    this.loadData()
+  }
 
 }
