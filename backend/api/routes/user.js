@@ -32,9 +32,18 @@ mysqlConnection.query('SELECT * FROM users WHERE email = ? AND password = ?', [e
 )
 })
 
-router.post('/test', verifyToken, (req, res) => {
-res.json('Información secreta')
-})
+router.post('/', verifyToken, (req, res) => {
+  const { email, password, role } = req.body;
+  const query = 'INSERT INTO users (email, password, role) VALUES (?, ?, ?)';
+  mysqlConnection.query(query, [email, password, role], (err, result) => {
+    if (!err) {
+      res.json({ message: 'Usuario agregado correctamente' });
+    } else {
+      console.log(err);
+      res.status(500).json({ error: 'Error al agregar el usuario' });
+    }
+  });
+});
 
 
 function verifyToken(req,res, next){
