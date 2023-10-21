@@ -1,0 +1,24 @@
+<ion-content [fullscreen]="true">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Crud Express</ion-card-title>
+    </ion-card-header>
+
+    <ion-card-content>
+      <form [formGroup]="loginForm">
+        <ion-item>
+          <ion-input label="Correo Electronico" labelPlacement="floating" placeholder="Ingresa un correo electronico"
+            formControlName="email"></ion-input>
+        </ion-item>
+        <ion-item>
+          <ion-input label="Contraseña" labelPlacement="floating" placeholder="Ingresa una contraseña"
+            formControlName="password"></ion-input>
+        </ion-item>
+
+        <ion-button expand="block" id="btn-login" (click)="logIn()" aria-label="Iniciar Sesión"
+          [disabled]="loginForm.invalid">Iniciar Sesión</ion-button>
+      </form>
+
+    </ion-card-content>
+  </ion-card>
+</ion-content>
