@@ -1,0 +1,10 @@
+# Angular
+frontend/node_modules/
+frontend/dist/
+frontend/tmp/
+frontend/*.log
+
+# Express
+backend/node_modules/
+backend/dist/
+backend/.env
